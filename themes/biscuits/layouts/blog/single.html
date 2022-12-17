@@ -1,0 +1,60 @@
+{{ define "main" }}
+<section class="section">
+  <article>
+    <div class="blog__container">
+      {{ $author := index .Site.Data.authors (.Params.author | default "default") }}
+      <h1 class="blog__title">{{ .Title }}</h1>
+
+      <div class="blog__details">
+        <div class="author-image-container">
+          <img src="{{ $author.avatar }}" class="author-image">
+        </div>
+
+        <div class="blog__info">
+          <p>By{{" "}}
+            {{- if $author -}}
+            {{ $author.name }}
+            {{- end -}}
+          </p>
+          <p><time>{{ .PublishDate.Format "January 2, 2006" }}</time> |
+            {{ .ReadingTime }} {{ if eq .ReadingTime 1 }} minute {{ else }} minutes {{ end }} read</p>
+        </div>
+
+      </div>
+      <div class="blog__categories">
+
+        {{ range $idx, $category := .Params.categories }}
+        <div class="category"><a href="{{ "categories/" | relURL }}{{ $category | urlize }}">{{ $category }}</a></div>
+        {{- end }}
+      </div>
+      <div class="content">
+        {{ .Content }}
+      </div>
+    </div>
+  </article>
+</section>
+<aside id="meta">
+  <div>
+    <section>
+      <h5 id="wordcount"> {{ .WordCount }} Words </h5>
+    </section>
+  </div>
+  <div>
+    {{ with .PrevInSection }}
+    <a class="previous" href="{{.Permalink}}">
+      < Previous post: {{.Title}}</a>
+        {{ end }}
+        {{ if and (.PrevInSection) (.NextInSection) }}
+        <br>
+        {{end}}
+
+        {{ with .NextInSection }}
+        <a class="next" href="{{.Permalink}}">Next post: {{.Title}} ></a>
+        {{ end }}
+  </div>
+
+
+  </div>
+</aside>
+
+{{ end }}

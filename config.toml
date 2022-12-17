@@ -1,0 +1,8 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'Mini Dog Blog'
+theme= 'biscuits'
+[params]  
+    categories = ["Snacks","Snuggles","Walks"] 
+[taxonomies]  
+  category = "categories" 

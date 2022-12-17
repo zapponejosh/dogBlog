@@ -1,0 +1,37 @@
+{{ define "main" }}
+<section class="section">
+  <div class="container max-800px">
+    {{ $title := .Params.title  }}
+    <h1 class="title">
+      {{ .Title }}
+    </h1>
+    {{ if $title }}
+    {{ with ($.Site.GetPage (printf "/%s" $title)) }}
+    {{ range .Pages }}
+    <li><a href="{{ .Permalink }}">{{ .Title}}</a></li>
+    {{ end }}
+    {{ end }}
+    <a href="/categories">All Categories</a>
+    {{ else }}
+    <div class="categories">
+      {{ range $taxonomyname, $taxonomy := .Site.Taxonomies }}
+
+      {{ range $name, $value := $taxonomy }}
+      <div class="categoryCard">
+        <div class="categoryHeading">
+          <!-- <p>{{ $name }} </p> -->
+          <p><a href="{{ "categories/" | relURL }}{{ $name | urlize }}">{{ $name }}</a></p>
+        </div>
+        <div class="category__detail">
+          {{ range $value.Pages }}
+          <p hugo-nav="{{ .RelPermalink}}"><a href="{{ .Permalink}}"> {{ .LinkTitle }} </a> </p>
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+      {{ end }}
+    </div>
+    {{end}}
+  </div>
+</section>
+{{ end }}
